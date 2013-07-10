@@ -51,6 +51,7 @@
     <!-- load the font files -->
 
     <script src="fonts/gentilis_bold.typeface.js"></script>
+    <script src="js/dict.js"></script>
  
     
 
@@ -77,11 +78,17 @@
 
 
       var allAnagramsArray = allAnagrams(word);
-
+      var isWord = true;
       for (var i = 0; i < allAnagramsArray.length; i++) {
         setTimeout(function(y) {
-          console.log(allAnagramsArray[y]);
-          main.refreshText(allAnagramsArray[y]);
+          var word = allAnagramsArray[y];
+          if (DICTIONARY.indexOf(word.toLowerCase()) !== -1) {
+            isWord = true;
+          }
+          else{
+            isWord = false;
+          }
+          main.refreshText(allAnagramsArray[y], isWord);
         }, i * 1000, i);
       }
  

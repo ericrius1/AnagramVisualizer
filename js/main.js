@@ -8,7 +8,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
       var pointLight;
 
-      var textMesh1, textMesh2, textGeo, material, parent;
+      var textMesh1, textMesh2, textGeo, nonWordMaterial, parent;
 
       var firstLetter = true;
 
@@ -129,7 +129,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
         }
 
-        material = new THREE.MeshFaceMaterial( [ 
+        nonWordMaterial = new THREE.MeshFaceMaterial( [ 
           new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } ), // front
           new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.SmoothShading } ) // side
         ] );
@@ -214,7 +214,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
           bevelSize: bevelSize,
           bevelEnabled: bevelEnabled,
 
-          material: 0,
+          nonWordMaterial: 0,
           extrudeMaterial: 1
 
         });
@@ -266,7 +266,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
         var centerOffset = -0.5 * ( textGeo.boundingBox.max.x - textGeo.boundingBox.min.x );
 
-        textMesh1 = new THREE.Mesh( textGeo, material );
+        textMesh1 = new THREE.Mesh( textGeo, nonWordMaterial );
 
         textMesh1.position.x = centerOffset;
         textMesh1.position.y = hover;
@@ -279,7 +279,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
         if ( mirror ) {
 
-          textMesh2 = new THREE.Mesh( textGeo, material );
+          textMesh2 = new THREE.Mesh( textGeo, nonWordMaterial );
 
           textMesh2.position.x = centerOffset;
           textMesh2.position.y = -hover;
@@ -294,8 +294,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
       }
 
-      function refreshText(newText) {
-        console.log(newText);
+      function refreshText(newText, isWord) {
         text = newText;
 
 
