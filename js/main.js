@@ -34,17 +34,12 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
       var fontMap = {
 
         "helvetiker": 0,
-        "optimer": 1,
-        "gentilis": 2,
-        "droid sans": 3,
-        "droid serif": 4
 
       };
 
       var weightMap = {
 
         "normal": 0,
-        "bold": 1
 
       };
 
@@ -117,8 +112,8 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
         //text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         // Get text from hash
-
         var hash = document.location.hash.substr( 1 );
+        debugger;
 
         if ( hash.length !== 0 ) {
 
@@ -132,14 +127,10 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
           hex = colorhash;
           pointLight.color.setHex( parseInt( colorhash, 16 ) );
 
-          font = reverseFontMap[ parseInt( fonthash ) ];
-          weight = reverseWeightMap[ parseInt( weighthash ) ];
 
-          bevelEnabled = parseInt( bevelhash );
 
-          text = decodeURI( texthash );
+          text = "yo!"
 
-          updatePermalink();
 
         } else {
 
@@ -213,15 +204,6 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
       function boolToNum( b ) {
 
         return b ? 1 : 0;
-
-      }
-
-      function updatePermalink() {
-
-        var link = hex + fontMap[ font ] + weightMap[ weight ] + boolToNum( bevelEnabled ) + "#" + encodeURI( text );
-
-        permalink.href = "#" + link;
-        window.location.hash = link;
 
       }
 
@@ -370,7 +352,6 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
       function refreshText() {
 
-        updatePermalink();
 
         parent.remove( textMesh1 );
         if ( mirror ) parent.remove( textMesh2 );
