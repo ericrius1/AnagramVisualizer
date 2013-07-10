@@ -6,8 +6,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
       var camera, cameraTarget, scene, renderer;
 
-      var composer;
-      var effectFXAA;
+      var pointLight;
 
       var textMesh1, textMesh2, textGeo, material, parent;
 
@@ -64,7 +63,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
       var windowHalfX = window.innerWidth / 2;
       var windowHalfY = window.innerHeight / 2;
 
-      var postprocessing = { enabled : false };
+
       var glow = 0.9;
 
       init();
@@ -109,7 +108,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
         dirLight.position.set( 0, 0, 1 ).normalize();
         scene.add( dirLight );
 
-        var pointLight = new THREE.PointLight( 0xffffff, 1.5 );
+        pointLight = new THREE.PointLight( 0xffffff, 1.5 );
         pointLight.position.set( 0, 100, 90 );
         scene.add( pointLight );
 
@@ -136,7 +135,6 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
           font = reverseFontMap[ parseInt( fonthash ) ];
           weight = reverseWeightMap[ parseInt( weighthash ) ];
 
-          postprocessing.enabled = parseInt( pphash );
           bevelEnabled = parseInt( bevelhash );
 
           text = decodeURI( texthash );
@@ -184,101 +182,11 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
         document.addEventListener( 'touchmove', onDocumentTouchMove, false );
         document.addEventListener( 'keypress', onDocumentKeyPress, false );
         document.addEventListener( 'keydown', onDocumentKeyDown, false );
+      
 
-        document.getElementById( "color" ).addEventListener( 'click', function() {
+       
 
-          pointLight.color.setHSL( Math.random(), 1, 0.5 );
-          hex = decimalToHex( pointLight.color.getHex() );
-
-          updatePermalink();
-
-        }, false );
-
-        document.getElementById( "font" ).addEventListener( 'click', function() {
-
-          if ( font == "helvetiker" ) {
-
-            font = "optimer";
-
-          } else if ( font == "optimer" ) {
-
-            font = "gentilis";
-
-          } else if ( font == "gentilis" ) {
-
-            font = "droid sans";
-
-          } else if ( font == "droid sans" ) {
-
-            font = "droid serif";
-
-          } else {
-
-            font = "helvetiker";
-
-          }
-
-          refreshText();
-
-        }, false );
-
-        document.getElementById( "weight" ).addEventListener( 'click', function() {
-
-          if ( weight == "bold" ) {
-
-            weight = "normal";
-
-          } else {
-
-            weight = "bold";
-
-          }
-
-          refreshText();
-
-        }, false );
-
-        document.getElementById( "bevel" ).addEventListener( 'click', function() {
-
-          bevelEnabled = !bevelEnabled;
-
-          refreshText();
-
-        }, false );
-
-        document.getElementById( "postprocessing" ).addEventListener( 'click', function() {
-
-          postprocessing.enabled = !postprocessing.enabled;
-          updatePermalink();
-
-        }, false );
-
-
-        // POSTPROCESSING
-
-        renderer.autoClear = false;
-
-        var renderModel = new THREE.RenderPass( scene, camera );
-        var effectBloom = new THREE.BloomPass( 0.25 );
-        var effectFilm = new THREE.FilmPass( 0.5, 0.125, 2048, false );
-
-        effectFXAA = new THREE.ShaderPass( THREE.FXAAShader );
-
-        var width = window.innerWidth || 2;
-        var height = window.innerHeight || 2;
-
-        effectFXAA.uniforms[ 'resolution' ].value.set( 1 / width, 1 / height );
-
-        effectFilm.renderToScreen = true;
-
-        composer = new THREE.EffectComposer( renderer );
-
-        composer.addPass( renderModel );
-        composer.addPass( effectFXAA );
-        composer.addPass( effectBloom );
-        composer.addPass( effectFilm );
-
-        //
+        
 
         window.addEventListener( 'resize', onWindowResize, false );
 
@@ -310,7 +218,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
       function updatePermalink() {
 
-        var link = hex + fontMap[ font ] + weightMap[ weight ] + boolToNum( postprocessing.enabled ) + boolToNum( bevelEnabled ) + "#" + encodeURI( text );
+        var link = hex + fontMap[ font ] + weightMap[ weight ] + boolToNum( bevelEnabled ) + "#" + encodeURI( text );
 
         permalink.href = "#" + link;
         window.location.hash = link;
@@ -553,16 +461,8 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
         camera.lookAt( cameraTarget );
 
         renderer.clear();
+        renderer.render( scene, camera );
 
-        if ( postprocessing.enabled ) {
-
-          composer.render( 0.05 );
-
-        } else {
-
-          renderer.render( scene, camera );
-
-        }
 
       }
     }
