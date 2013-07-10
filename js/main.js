@@ -1,4 +1,4 @@
-var Main = function(){
+var Main = function(anagramWord){
 
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
@@ -12,7 +12,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
       var firstLetter = true;
 
-      var text = "three.js",
+      var text = anagramWord;
 
         height = 20,
         size = 70,
@@ -43,11 +43,6 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
       };
 
-      var reverseFontMap = {};
-      var reverseWeightMap = {};
-
-      for ( var i in fontMap ) reverseFontMap[ fontMap[i] ] = i;
-      for ( var i in weightMap ) reverseWeightMap[ weightMap[i] ] = i;
 
       var targetRotation = 0;
       var targetRotationOnMouseDown = 0;
@@ -113,7 +108,6 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
         // Get text from hash
         var hash = document.location.hash.substr( 1 );
-        debugger;
 
         if ( hash.length !== 0 ) {
 
@@ -126,10 +120,6 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
           hex = colorhash;
           pointLight.color.setHex( parseInt( colorhash, 16 ) );
-
-
-
-          text = "yo!"
 
 
         } else {
@@ -171,8 +161,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
         document.addEventListener( 'mousedown', onDocumentMouseDown, false );
         document.addEventListener( 'touchstart', onDocumentTouchStart, false );
         document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-        document.addEventListener( 'keypress', onDocumentKeyPress, false );
-        document.addEventListener( 'keydown', onDocumentKeyDown, false );
+   
       
 
        
@@ -207,52 +196,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
       }
 
-      function onDocumentKeyDown( event ) {
-
-        if ( firstLetter ) {
-
-          firstLetter = false;
-          text = "";
-
-        }
-
-        var keyCode = event.keyCode;
-
-        // backspace
-
-        if ( keyCode == 8 ) {
-
-          event.preventDefault();
-
-          text = text.substring( 0, text.length - 1 );
-          refreshText();
-
-          return false;
-
-        }
-
-      }
-
-      function onDocumentKeyPress( event ) {
-
-        var keyCode = event.which;
-
-        // backspace
-
-        if ( keyCode == 8 ) {
-
-          event.preventDefault();
-
-        } else {
-
-          var ch = String.fromCharCode( keyCode );
-          text += ch;
-
-          refreshText();
-
-        }
-
-      }
+     
 
       function createText() {
 
@@ -350,7 +294,9 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
       }
 
-      function refreshText() {
+      function refreshText(newText) {
+        console.log(newText);
+        text = newText;
 
 
         parent.remove( textMesh1 );
@@ -446,4 +392,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 
       }
+
+      this.refreshText = refreshText;
+      return this;
     }
