@@ -25,7 +25,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
         bevelSegments = 3,
         bevelEnabled = true,
 
-        font = "optimer", // helvetiker, optimer, gentilis, droid sans, droid serif
+        font = "gentilis", // helvetiker, optimer, gentilis, droid sans, droid serif
         weight = "bold", // normal bold
         style = "normal"; // normal italic
 
