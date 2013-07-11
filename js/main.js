@@ -201,7 +201,6 @@ var Main = function(anagramWord) {
   function createText(isWord) {
     var material = isWord ? wordMaterial : nonWordMaterial;
     if(isWord){
-      console.log("WORD!");
       pointLight.color.setHSL(wordLight, 1, 0.5);
     }
     else{
